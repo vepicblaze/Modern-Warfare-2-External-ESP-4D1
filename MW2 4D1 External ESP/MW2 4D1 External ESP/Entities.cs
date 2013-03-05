@@ -23,22 +23,4 @@ namespace MW2_4D1_External_ESP
         public int Rank { get; set; }
         public int Score { get; set; }
     }
-
-    public class Turret
-    {
-        public Vector Origin { get; set; }
-        public const string NAME = "[TURRET]";
-    }
-
-    public class Helicopter
-    {
-        public Vector Origin { get; set; }
-        public const string NAME = "[HELICOPTER]";
-    }
-
-    public class Plane
-    {
-        public Vector Origin { get; set; }
-        public const string NAME = "[PLANE]";
-    }
 }
