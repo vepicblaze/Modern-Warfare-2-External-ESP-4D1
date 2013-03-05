@@ -1,0 +1,91 @@
+﻿using MW2_4D1_External_ESP.Properties;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace MW2_4D1_External_ESP
+{
+    public partial class FormAdvancedSettings : Form
+    {
+        public FormAdvancedSettings()
+        {
+            InitializeComponent();
+        }
+
+        private void FormAdvancedSettings_Load(object sender, EventArgs e)
+        {
+            UpdateLabels();
+        }
+
+        private void UpdateLabels()
+        {
+            labelNameColor.Text = string.Format("Player name Color: {0}", Settings.Default.PlayerNameColor.Name.ToUpper());
+            labelDistanceColor.Text = string.Format("Distance to player Color: {0}", Settings.Default.DistanceToPlayerColor.Name.ToUpper());
+            labelDeadColor.Text = string.Format("Dead player Color: {0}", Settings.Default.DeadPlayerColor.Name.ToUpper());
+            labelFriendlyColor.Text = string.Format("Friendly player Color: {0}", Settings.Default.FriendlyColor.Name.ToUpper());
+            labelHostileColor.Text = string.Format("Hostile player Color: {0}", Settings.Default.HostileColor.Name.ToUpper());
+        }
+
+        private void buttonNameColor_Click(object sender, EventArgs e)
+        {
+            var dialog = new ColorDialog();
+            dialog.ShowDialog();
+            Settings.Default.PlayerNameColor = dialog.Color;
+            Settings.Default.Save();
+
+            UpdateLabels();
+        }
+
+        private void buttonDistanceColor_Click(object sender, EventArgs e)
+        {
+            var dialog = new ColorDialog();
+            dialog.ShowDialog();
+            Settings.Default.DistanceToPlayerColor = dialog.Color;
+            Settings.Default.Save();
+
+            UpdateLabels();
+        }
+
+        private void buttonDeadColor_Click(object sender, EventArgs e)
+        {
+            var dialog = new ColorDialog();
+            dialog.ShowDialog();
+            Settings.Default.DeadPlayerColor = dialog.Color;
+            Settings.Default.Save();
+
+            UpdateLabels();
+        }
+
+        private void buttonFriendlyColor_Click(object sender, EventArgs e)
+        {
+            var dialog = new ColorDialog();
+            dialog.ShowDialog();
+            Settings.Default.FriendlyColor = dialog.Color;
+            Settings.Default.Save();
+
+            UpdateLabels();
+        }
+
+        private void buttonHostileColor_Click(object sender, EventArgs e)
+        {
+            var dialog = new ColorDialog();
+            dialog.ShowDialog();
+            Settings.Default.HostileColor = dialog.Color;
+            Settings.Default.Save();
+
+            UpdateLabels();
+        }
+
+        private void buttonDefaultColor_Click(object sender, EventArgs e)
+        {
+            Settings.Default.PlayerNameColor = Color.White;
+            Settings.Default.DistanceToPlayerColor = Color.White;
+            Settings.Default.DeadPlayerColor = Color.Gray;
+            Settings.Default.FriendlyColor = Color.Blue;
+            Settings.Default.HostileColor = Color.Red;
+            Settings.Default.Save();
+
+            UpdateLabels();
+        }
+    }
+}
