@@ -12,7 +12,6 @@ Features:
 - Warning if hostile player is nearby
 
 The game has to run in windowed mode in order for the ESP to function.
-
 Use these commands in the console to change between windowed mode and fullscreen:
 
 Windowed mode:
