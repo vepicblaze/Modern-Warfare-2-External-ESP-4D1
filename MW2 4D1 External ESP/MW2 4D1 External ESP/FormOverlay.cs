@@ -76,7 +76,7 @@ namespace MW2_4D1_External_ESP
             while (IsRunning) {
                 device.Clear(ClearFlags.Target, Color.FromArgb(0, 0, 0, 0), 1.0f, 0);
 
-                Thread.Sleep(16);
+                Thread.Sleep(5);
 
                 if (Game.IsGameRunning()) {
                     Game.OpenProcess();
@@ -87,16 +87,22 @@ namespace MW2_4D1_External_ESP
                     if (Game.IsGameWindowInForeground()) {
                         device.BeginScene();
                         {
-                            DrawLargeText(string.Format("[MW2 4D1 External ESP: v{0}]", 
-                                FormMain.ProductVersion()), 
-                                new PointF(this.Width * 0.15f, 4.0f), Color.Lime);
+                            DrawEspVersion();
 
                             if (Game.IsPlayerInGame()) {
                                 EspStatus.CurrentStatus = EspStatus.ESP_RUNNING;
 
-                                foreach (var player in Game.Players) {
+                                DrawLobbyInfo();
+                                DrawCrosshair();
+
+                                foreach (var player in Game.Players)
                                     DrawPlayerESP(player);
-                                }
+                                foreach (var turret in Game.Turrets)
+                                    DrawTurretESP(turret);
+                                foreach (var heli in Game.Helis)
+                                    DrawHelicopterESP(heli);
+                                foreach (var plane in Game.Planes)
+                                    DrawPlaneESP(plane);
                             } else {
                                 EspStatus.CurrentStatus = EspStatus.ESP_NOT_RUNNING;
                             }
@@ -126,10 +132,7 @@ namespace MW2_4D1_External_ESP
 
         private void DrawPlayerESP(Player player)
         {
-            if (player.ClientNum == Game.LocalPlayer.ClientNum)
-                return;
-
-            if (!player.IsValid)
+            if (Game.LocalPlayer == null)
                 return;
 
             // Don't draw the ESP if the other vector is very close
@@ -157,7 +160,7 @@ namespace MW2_4D1_External_ESP
 
             PointF feetPoint, headPoint;
             if (MathHelper.WorldToScreen(player.Origin, out feetPoint)) {
-                MathHelper.WorldToScreen(player.Origin + new Vector(0f, 0f, 62f), out headPoint);
+                MathHelper.WorldToScreen(player.Origin + new Vector(0f, 0f, 63f), out headPoint);
             } else {
                 return;
             }
@@ -195,19 +198,133 @@ namespace MW2_4D1_External_ESP
             float baseDistance = Vector.Distance(Game.LocalPlayer.Origin, player.Origin);
             float distance = (float)Math.Round((double)baseDistance * distanceType.Const, 1);
 
-            if (baseDistance > 1200f) {
-                DrawRect(boundingBox, 1f, color);
-            } else {
-                DrawRect(boundingBox, 2f, color);
-            }
+            DrawRect(boundingBox, 2f, color);
 
             if (Settings.Default.PlayerName)
                 DrawSmallText(player.Name, namePoint, Settings.Default.PlayerNameColor);
             if (Settings.Default.DistanceToPlayer)
                 DrawSmallText(distance + distanceType.Suffix, distancePoint, Settings.Default.DistanceToPlayerColor);
 
-            if (Settings.Default.HostilePlayerWarning && player.Team == PlayerTeam.Hostile && player.IsAlive && baseDistance < 550)
+            if (Settings.Default.HostilePlayerWarning && player.Team == PlayerTeam.Hostile && player.IsAlive && baseDistance < 450)
                 DrawLargeText("Hostile player nearby!", new PointF(this.Width * 0.35f, this.Height * 0.7f), Color.Red);
+        }
+
+        private void DrawTurretESP(Turret turret)
+        {
+            // Don't draw the ESP if the other vector is very close
+            if (Vector.Distance(turret.Origin, Game.ViewOrigin) < 80.0f)
+                return;
+
+            PointF botPoint, topPoint;
+            if (MathHelper.WorldToScreen(turret.Origin, out botPoint)) {
+                MathHelper.WorldToScreen(turret.Origin + new Vector(0f, 0f, 55f), out topPoint);
+            } else {
+                return;
+            }
+
+            var drawPoint = new PointF();
+            drawPoint.Y = botPoint.Y - topPoint.Y;
+            drawPoint.X = drawPoint.Y / 2.75f;
+
+            var boundingBox = new RectF();
+            boundingBox.X = botPoint.X - (drawPoint.X / 2.0f);
+            boundingBox.Y = botPoint.Y;
+            boundingBox.W = drawPoint.X;
+            boundingBox.H = -drawPoint.Y;
+
+            var namePoint = new PointF();
+            namePoint.X = boundingBox.X + boundingBox.W + 5.0f;
+            namePoint.Y = botPoint.Y - drawPoint.Y - 2.8f;
+
+            DrawRect(boundingBox, 2.0f, Color.Purple);
+            DrawSmallText(Turret.NAME, namePoint, Color.White);
+        }
+
+        private void DrawHelicopterESP(Helicopter heli)
+        {
+            PointF pos;
+            if (!MathHelper.WorldToScreen(heli.Origin, out pos))
+                return;
+
+            var boundingBox = new RectF();
+            boundingBox.W = 30f;
+            boundingBox.H = 30f;
+            boundingBox.X = pos.X - (boundingBox.W / 2f);
+            boundingBox.Y = pos.Y - (boundingBox.H / 2f);
+
+            var namePoint = new PointF();
+            namePoint.X = boundingBox.X + boundingBox.W + 5.0f;
+            namePoint.Y = boundingBox.Y - 1.4f;
+
+            DrawRect(boundingBox, 2.0f, Color.Purple);
+            DrawSmallText(Helicopter.NAME, namePoint, Color.White);
+        }
+
+        private void DrawPlaneESP(Plane plane)
+        {
+            PointF pos;
+            if (!MathHelper.WorldToScreen(plane.Origin, out pos))
+                return;
+
+            var boundingBox = new RectF();
+            boundingBox.W = 30f;
+            boundingBox.H = 30f;
+            boundingBox.X = pos.X - (boundingBox.W / 2f);
+            boundingBox.Y = pos.Y - (boundingBox.H / 2f);
+
+            var namePoint = new PointF();
+            namePoint.X = boundingBox.X + boundingBox.W + 5.0f;
+            namePoint.Y = boundingBox.Y - 1.4f;
+
+            DrawRect(boundingBox, 2.0f, Color.Purple);
+            DrawSmallText(Plane.NAME, namePoint, Color.White);
+        }
+
+        private void DrawEspVersion()
+        {
+            FillRect(new RectF(this.Width * 0.13f - 2.0f, 9.0f, 328f, 25f), Color.FromArgb(140, 0, 0, 0));
+            DrawLargeText(string.Format("[MW2 4D1 External ESP: v{0}]",
+                                FormMain.ProductVersion()),
+                                new PointF(this.Width * 0.13f, 4.0f), Color.Lime);
+        }
+
+        private void DrawLobbyInfo()
+        {
+            var rect = new RectF();
+            rect.X = this.Width * 0.13f - 2.0f;
+            rect.Y = 40f;
+            rect.W = 120f;
+            rect.H = 53f;
+            FillRect(rect, Color.FromArgb(140, 0, 0, 0));
+            var info = string.Format("Player count: {0}\nTurret count: {1}\nHelicopter count: {2}\nPlane count: {3}",
+                                    Game.Players.Count, Game.Turrets.Count, Game.Helis.Count, Game.Planes.Count);
+            DrawSmallText(info, new PointF(this.Width * 0.13f, 40.0f), Color.Lime);
+        }
+
+        private void DrawCrosshair()
+        {
+            float thickness = 2f;
+            float width = 25f;
+
+            float centerX = (float)(Game.RefDef.width) / 2.0f;
+            float centerY = (float)(Game.RefDef.height) / 2.0f;
+
+            var horizontalPt1 = new PointF();
+            var horizontalPt2 = new PointF();
+            horizontalPt1.X = centerX - (width / 2f);
+            horizontalPt1.Y = centerY;
+            horizontalPt2.X = centerX + (width / 2f);
+            horizontalPt2.Y = centerY;
+            
+            var verticalPt1 = new PointF();
+            var verticalPt2 = new PointF();
+            verticalPt1.X = centerX;
+            verticalPt1.Y = centerY - (width / 2f);
+            verticalPt2.X = centerX;
+            verticalPt2.Y = centerY + (width / 2f);
+
+            DrawLine(horizontalPt1, horizontalPt2, thickness, Color.LightGray);
+            DrawLine(verticalPt1, verticalPt2, thickness, Color.LightGray);
         }
 
         private void DrawSmallText(string text, PointF position, Color color)
@@ -248,6 +365,34 @@ namespace MW2_4D1_External_ESP
             line.Draw(vertexList2, color);
         }
 
+        private void FillRect(RectF rect, Color color)
+        {
+            var vertecies = new CustomVertex.TransformedColored[4];
+
+            vertecies[0].Position = new Vector4(rect.X, rect.Y + rect.H, 0, 0.5f);
+            vertecies[1].Position = new Vector4(rect.X, rect.Y, 0, 0.5f);
+            vertecies[2].Position = new Vector4(rect.X + rect.W, rect.Y + rect.H, 0, 0.5f);
+            vertecies[3].Position = new Vector4(rect.X + rect.W, rect.Y, 0, 0.5f);
+
+            vertecies[0].Color = color.ToArgb();
+            vertecies[1].Color = color.ToArgb();
+            vertecies[2].Color = color.ToArgb();
+            vertecies[3].Color = color.ToArgb();
+
+            device.VertexFormat = CustomVertex.TransformedColored.Format;
+            device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, vertecies);
+        }
+
+        private void DrawLine(PointF pt1, PointF pt2, float width, Color color)
+        {
+            line.Width = width;
+
+            var vertexList = new Vector2[2];
+            vertexList[0] = new Vector2(pt1.X, pt1.Y);
+            vertexList[1] = new Vector2(pt2.X, pt2.Y);
+            line.Draw(vertexList, color);
+        }
+
         // Moves/Resizes window and resizes backbuffer
         private void MoveWindow()
         {
@@ -283,7 +428,7 @@ namespace MW2_4D1_External_ESP
             });
         }
 
-        // Makes the window transparent (amonst other things)
+        // Makes the window transparent (amongst other things)
         private void SetCustomStyle()
         {
             Native.SetWindowLong(this.Handle, Native.GWL_STYLE,
@@ -292,10 +437,10 @@ namespace MW2_4D1_External_ESP
                 Native.GetWindowLong(this.Handle, Native.GWL_EXSTYLE) | Native.WS_EX_LAYERED | Native.WS_EX_TRANSPARENT);
 
             Native.Margins margins;
-            margins.cxLeftWidth = 0;
-            margins.cxRightWidth = this.Width;
-            margins.cyTopHeight = 0;
-            margins.cyBottomHeight = this.Height;
+            margins.cxLeftWidth = -1;
+            margins.cxRightWidth = -1;
+            margins.cyTopHeight = -1;
+            margins.cyBottomHeight = -1;
             Native.DwmExtendFrameIntoClientArea(this.Handle, ref margins);
         }
     }

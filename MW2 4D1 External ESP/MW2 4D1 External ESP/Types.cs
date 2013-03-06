@@ -9,7 +9,7 @@ namespace MW2_4D1_External_ESP
         {
             point = new PointF();
 
-            var local = location - Game.ViewOrigin;
+            Vector local = location - Game.ViewOrigin;
 
             var transform = new Vector();
             transform.x = local.DotProduct(Game.RefDef.viewAxis2);
@@ -19,12 +19,11 @@ namespace MW2_4D1_External_ESP
             if (transform.z < 0.1f)
                 return false;
 
-            var screenCenter = new PointF();
-            screenCenter.X = (float)(Game.RefDef.width) / 2.0f;
-            screenCenter.Y = (float)(Game.RefDef.height) / 2.0f;
+            float centerX = (float)(Game.RefDef.width) / 2.0f;
+            float centerY = (float)(Game.RefDef.height) / 2.0f;
 
-            point.X = screenCenter.X * (1.0f - (transform.x / Game.RefDef.fovX / transform.z));
-            point.Y = screenCenter.Y * (1.0f - (transform.y / Game.RefDef.fovY / transform.z));
+            point.X = centerX * (1.0f - (transform.x / Game.RefDef.fovX / transform.z));
+            point.Y = centerY * (1.0f - (transform.y / Game.RefDef.fovY / transform.z));
             return true;
         }
     }
