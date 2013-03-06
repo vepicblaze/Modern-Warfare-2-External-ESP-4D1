@@ -14,6 +14,7 @@ Features:
 The game has to run in windowed mode in order for the ESP to function.
 
 Use these commands in the console to change between windowed mode and fullscreen:
+
 Windowed mode:
 /r_fullscreen 0; r_noborder 0; vid_restart
 
