@@ -154,5 +154,65 @@ namespace MW2_4D1_External_ESP.Properties {
                 this["HostileColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Crosshair {
+            get {
+                return ((bool)(this["Crosshair"]));
+            }
+            set {
+                this["Crosshair"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Turrets {
+            get {
+                return ((bool)(this["Turrets"]));
+            }
+            set {
+                this["Turrets"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Helicopters {
+            get {
+                return ((bool)(this["Helicopters"]));
+            }
+            set {
+                this["Helicopters"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Planes {
+            get {
+                return ((bool)(this["Planes"]));
+            }
+            set {
+                this["Planes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int RenderSleep {
+            get {
+                return ((int)(this["RenderSleep"]));
+            }
+            set {
+                this["RenderSleep"] = value;
+            }
+        }
     }
 }

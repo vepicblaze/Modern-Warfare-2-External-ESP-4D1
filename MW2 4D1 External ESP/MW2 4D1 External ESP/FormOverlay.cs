@@ -76,7 +76,7 @@ namespace MW2_4D1_External_ESP
             while (IsRunning) {
                 device.Clear(ClearFlags.Target, Color.FromArgb(0, 0, 0, 0), 1.0f, 0);
 
-                Thread.Sleep(5);
+                Thread.Sleep(Settings.Default.RenderSleep);
 
                 if (Game.IsGameRunning()) {
                     Game.OpenProcess();
@@ -132,9 +132,6 @@ namespace MW2_4D1_External_ESP
 
         private void DrawPlayerESP(Player player)
         {
-            if (Game.LocalPlayer == null)
-                return;
-
             // Don't draw the ESP if the other vector is very close
             if (Vector.Distance(player.Origin, Game.ViewOrigin) < 80.0f)
                 return;
@@ -205,12 +202,15 @@ namespace MW2_4D1_External_ESP
             if (Settings.Default.DistanceToPlayer)
                 DrawSmallText(distance + distanceType.Suffix, distancePoint, Settings.Default.DistanceToPlayerColor);
 
-            if (Settings.Default.HostilePlayerWarning && player.Team == PlayerTeam.Hostile && player.IsAlive && baseDistance < 450)
+            if (Settings.Default.HostilePlayerWarning && player.Team == PlayerTeam.Hostile && player.IsAlive && baseDistance < 400)
                 DrawLargeText("Hostile player nearby!", new PointF(this.Width * 0.35f, this.Height * 0.7f), Color.Red);
         }
 
         private void DrawTurretESP(Turret turret)
         {
+            if (!Settings.Default.Turrets)
+                return;
+
             // Don't draw the ESP if the other vector is very close
             if (Vector.Distance(turret.Origin, Game.ViewOrigin) < 80.0f)
                 return;
@@ -242,6 +242,9 @@ namespace MW2_4D1_External_ESP
 
         private void DrawHelicopterESP(Helicopter heli)
         {
+            if (!Settings.Default.Helicopters)
+                return;
+
             PointF pos;
             if (!MathHelper.WorldToScreen(heli.Origin, out pos))
                 return;
@@ -262,6 +265,9 @@ namespace MW2_4D1_External_ESP
 
         private void DrawPlaneESP(Plane plane)
         {
+            if (!Settings.Default.Planes)
+                return;
+
             PointF pos;
             if (!MathHelper.WorldToScreen(plane.Origin, out pos))
                 return;
@@ -303,25 +309,27 @@ namespace MW2_4D1_External_ESP
 
         private void DrawCrosshair()
         {
-            float thickness = 2f;
-            float width = 25f;
+            if (!Settings.Default.Crosshair)
+                return;
 
-            float centerX = (float)(Game.RefDef.width) / 2.0f;
-            float centerY = (float)(Game.RefDef.height) / 2.0f;
+            float thickness = 2f;
+            float width = 20f;
+
+            PointF center = Game.ScreenCenter();
 
             var horizontalPt1 = new PointF();
+            horizontalPt1.X = center.X - (width / 2f);
+            horizontalPt1.Y = center.Y;
             var horizontalPt2 = new PointF();
-            horizontalPt1.X = centerX - (width / 2f);
-            horizontalPt1.Y = centerY;
-            horizontalPt2.X = centerX + (width / 2f);
-            horizontalPt2.Y = centerY;
+            horizontalPt2.X = center.X + (width / 2f);
+            horizontalPt2.Y = center.Y;
             
             var verticalPt1 = new PointF();
+            verticalPt1.X = center.X;
+            verticalPt1.Y = center.Y - (width / 2f);
             var verticalPt2 = new PointF();
-            verticalPt1.X = centerX;
-            verticalPt1.Y = centerY - (width / 2f);
-            verticalPt2.X = centerX;
-            verticalPt2.Y = centerY + (width / 2f);
+            verticalPt2.X = center.X;
+            verticalPt2.Y = center.Y + (width / 2f);
 
             DrawLine(horizontalPt1, horizontalPt2, thickness, Color.LightGray);
             DrawLine(verticalPt1, verticalPt2, thickness, Color.LightGray);

@@ -15,7 +15,7 @@ namespace MW2_4D1_External_ESP
         public static IntPtr hProcess;
 
         #region Entities
-        public static Player LocalPlayer;
+        public static Player LocalPlayer = new Player();
         public static List<Player> Players = new List<Player>(ClientInfo.LENGTH);
         public static List<Turret> Turrets = new List<Turret>(10);
         public static List<Helicopter> Helis = new List<Helicopter>(6);
@@ -54,6 +54,11 @@ namespace MW2_4D1_External_ESP
             return CG.time != 0;
         }
 
+        public static PointF ScreenCenter()
+        {
+            return new PointF((float)RefDef.width / 2f, (float)RefDef.height / 2f);
+        }
+
         public static bool OpenProcess()
         {
             int processID;
@@ -72,7 +77,16 @@ namespace MW2_4D1_External_ESP
 
         public static void ReadGame()
         {
-            ReadStructs();
+            if (hProcess == IntPtr.Zero)
+                throw new SystemException("Failed to read structs from the game");
+
+            ViewOrigin = ProcessMemory.Read<Vector>(hProcess, Address.ViewOrigin);
+            RefDef = ProcessMemory.Read<RefDef>(hProcess, Address.RefDef);
+            Entities = ProcessMemory.ReadArray<Entity>(hProcess, Address.Entity, Entity.LENGTH, Entity.SIZE);
+            Clients = ProcessMemory.ReadArray<ClientInfo>(hProcess, Address.ClientInfo, ClientInfo.LENGTH, ClientInfo.SIZE);
+            Camera = ProcessMemory.Read<Camera>(hProcess, Address.Camera);
+            CG = ProcessMemory.Read<ClientGame>(hProcess, Address.ClientGame);
+            CGS = ProcessMemory.Read<ClientGameState>(hProcess, Address.ClientGameState);
 
             // If the lists arent cleared they will continue to grow with each List<T>.Add() call,
             //  therefore they have to be cleared before content is added to the lists again.
@@ -117,20 +131,6 @@ namespace MW2_4D1_External_ESP
                     Planes.Add(plane);
                 }
             }
-        }
-
-        private static void ReadStructs()
-        {
-            if (hProcess == IntPtr.Zero)
-                throw new SystemException("Failed to read structs from the game");
-
-            ViewOrigin = ProcessMemory.Read<Vector>(hProcess, Address.ViewOrigin);
-            RefDef = ProcessMemory.Read<RefDef>(hProcess, Address.RefDef);
-            Entities = ProcessMemory.ReadArray<Entity>(hProcess, Address.Entity, Entity.LENGTH, Entity.SIZE);
-            Clients = ProcessMemory.ReadArray<ClientInfo>(hProcess, Address.ClientInfo, ClientInfo.LENGTH, ClientInfo.SIZE);
-            Camera = ProcessMemory.Read<Camera>(hProcess, Address.Camera);
-            CG = ProcessMemory.Read<ClientGame>(hProcess, Address.ClientGame);
-            CGS = ProcessMemory.Read<ClientGameState>(hProcess, Address.ClientGameState);
         }
 
         public static class Address

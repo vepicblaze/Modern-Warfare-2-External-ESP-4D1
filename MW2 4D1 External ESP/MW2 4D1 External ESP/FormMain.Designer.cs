@@ -29,6 +29,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBoxPlanes = new System.Windows.Forms.CheckBox();
+            this.checkBoxHelicopters = new System.Windows.Forms.CheckBox();
+            this.checkBoxTurrets = new System.Windows.Forms.CheckBox();
+            this.checkBoxCrosshair = new System.Windows.Forms.CheckBox();
             this.checkBoxOnlyHostilePlayers = new System.Windows.Forms.CheckBox();
             this.checkBoxHostilePlayerWarning = new System.Windows.Forms.CheckBox();
             this.checkBoxDistanceToPlayer = new System.Windows.Forms.CheckBox();
@@ -52,6 +56,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkBoxPlanes);
+            this.groupBox1.Controls.Add(this.checkBoxHelicopters);
+            this.groupBox1.Controls.Add(this.checkBoxTurrets);
+            this.groupBox1.Controls.Add(this.checkBoxCrosshair);
             this.groupBox1.Controls.Add(this.checkBoxOnlyHostilePlayers);
             this.groupBox1.Controls.Add(this.checkBoxHostilePlayerWarning);
             this.groupBox1.Controls.Add(this.checkBoxDistanceToPlayer);
@@ -61,10 +69,62 @@
             this.groupBox1.ForeColor = System.Drawing.Color.Lime;
             this.groupBox1.Location = new System.Drawing.Point(12, 147);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(389, 132);
+            this.groupBox1.Size = new System.Drawing.Size(389, 228);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
+            // 
+            // checkBoxPlanes
+            // 
+            this.checkBoxPlanes.AutoSize = true;
+            this.checkBoxPlanes.Checked = true;
+            this.checkBoxPlanes.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxPlanes.Location = new System.Drawing.Point(10, 179);
+            this.checkBoxPlanes.Name = "checkBoxPlanes";
+            this.checkBoxPlanes.Size = new System.Drawing.Size(94, 17);
+            this.checkBoxPlanes.TabIndex = 11;
+            this.checkBoxPlanes.Text = "Display planes";
+            this.checkBoxPlanes.UseVisualStyleBackColor = true;
+            this.checkBoxPlanes.CheckedChanged += new System.EventHandler(this.checkBoxPlanes_CheckedChanged);
+            // 
+            // checkBoxHelicopters
+            // 
+            this.checkBoxHelicopters.AutoSize = true;
+            this.checkBoxHelicopters.Checked = true;
+            this.checkBoxHelicopters.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxHelicopters.Location = new System.Drawing.Point(10, 156);
+            this.checkBoxHelicopters.Name = "checkBoxHelicopters";
+            this.checkBoxHelicopters.Size = new System.Drawing.Size(114, 17);
+            this.checkBoxHelicopters.TabIndex = 10;
+            this.checkBoxHelicopters.Text = "Display helicopters";
+            this.checkBoxHelicopters.UseVisualStyleBackColor = true;
+            this.checkBoxHelicopters.CheckedChanged += new System.EventHandler(this.checkBoxHelicopters_CheckedChanged);
+            // 
+            // checkBoxTurrets
+            // 
+            this.checkBoxTurrets.AutoSize = true;
+            this.checkBoxTurrets.Checked = true;
+            this.checkBoxTurrets.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxTurrets.Location = new System.Drawing.Point(10, 133);
+            this.checkBoxTurrets.Name = "checkBoxTurrets";
+            this.checkBoxTurrets.Size = new System.Drawing.Size(92, 17);
+            this.checkBoxTurrets.TabIndex = 9;
+            this.checkBoxTurrets.Text = "Display turrets";
+            this.checkBoxTurrets.UseVisualStyleBackColor = true;
+            this.checkBoxTurrets.CheckedChanged += new System.EventHandler(this.checkBoxTurrets_CheckedChanged);
+            // 
+            // checkBoxCrosshair
+            // 
+            this.checkBoxCrosshair.AutoSize = true;
+            this.checkBoxCrosshair.Checked = true;
+            this.checkBoxCrosshair.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxCrosshair.Location = new System.Drawing.Point(10, 110);
+            this.checkBoxCrosshair.Name = "checkBoxCrosshair";
+            this.checkBoxCrosshair.Size = new System.Drawing.Size(105, 17);
+            this.checkBoxCrosshair.TabIndex = 8;
+            this.checkBoxCrosshair.Text = "Display crosshair";
+            this.checkBoxCrosshair.UseVisualStyleBackColor = true;
+            this.checkBoxCrosshair.CheckedChanged += new System.EventHandler(this.checkBoxCrosshair_CheckedChanged);
             // 
             // checkBoxOnlyHostilePlayers
             // 
@@ -82,7 +142,7 @@
             this.checkBoxHostilePlayerWarning.AutoSize = true;
             this.checkBoxHostilePlayerWarning.Checked = true;
             this.checkBoxHostilePlayerWarning.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxHostilePlayerWarning.Location = new System.Drawing.Point(10, 109);
+            this.checkBoxHostilePlayerWarning.Location = new System.Drawing.Point(10, 202);
             this.checkBoxHostilePlayerWarning.Name = "checkBoxHostilePlayerWarning";
             this.checkBoxHostilePlayerWarning.Size = new System.Drawing.Size(129, 17);
             this.checkBoxHostilePlayerWarning.TabIndex = 6;
@@ -241,7 +301,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(413, 291);
+            this.ClientSize = new System.Drawing.Size(413, 387);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
@@ -285,6 +345,10 @@
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem advancedSettingsToolStripMenuItem;
+        private System.Windows.Forms.CheckBox checkBoxCrosshair;
+        private System.Windows.Forms.CheckBox checkBoxPlanes;
+        private System.Windows.Forms.CheckBox checkBoxHelicopters;
+        private System.Windows.Forms.CheckBox checkBoxTurrets;
     }
 }
 

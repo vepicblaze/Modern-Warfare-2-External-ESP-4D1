@@ -123,6 +123,31 @@ namespace MW2_4D1_External_ESP
             Settings.Default.Save();
         }
 
+        private void checkBoxCrosshair_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.Crosshair = checkBoxCrosshair.Checked;
+            Settings.Default.Save();
+        }
+
+        private void checkBoxTurrets_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.Turrets = checkBoxTurrets.Checked;
+            Settings.Default.Save();
+        }
+
+        private void checkBoxHelicopters_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.Helicopters = checkBoxHelicopters.Checked;
+            Settings.Default.Save();
+        }
+
+        private void checkBoxPlanes_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.Planes = checkBoxPlanes.Checked;
+            Settings.Default.Save();
+        }
+
+        #region MenuStrip
         private void infoToolStripMenuItem_Click(object sender, EventArgs e)
         {
         }
@@ -136,6 +161,7 @@ namespace MW2_4D1_External_ESP
         {
             new FormAdvancedSettings().ShowDialog();
         }
+        #endregion
     }
 
     public class EspStatus

@@ -38,6 +38,9 @@
             this.buttonFriendlyColor = new System.Windows.Forms.Button();
             this.buttonHostileColor = new System.Windows.Forms.Button();
             this.buttonDefaultColor = new System.Windows.Forms.Button();
+            this.labelRenderLoopSleepTime = new System.Windows.Forms.Label();
+            this.numericUpDownRenderSleep = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRenderSleep)).BeginInit();
             this.SuspendLayout();
             // 
             // labelNameColor
@@ -155,12 +158,43 @@
             this.buttonDefaultColor.UseVisualStyleBackColor = true;
             this.buttonDefaultColor.Click += new System.EventHandler(this.buttonDefaultColor_Click);
             // 
+            // labelRenderLoopSleepTime
+            // 
+            this.labelRenderLoopSleepTime.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelRenderLoopSleepTime.ForeColor = System.Drawing.Color.Lime;
+            this.labelRenderLoopSleepTime.Location = new System.Drawing.Point(12, 187);
+            this.labelRenderLoopSleepTime.Name = "labelRenderLoopSleepTime";
+            this.labelRenderLoopSleepTime.Size = new System.Drawing.Size(259, 23);
+            this.labelRenderLoopSleepTime.TabIndex = 11;
+            this.labelRenderLoopSleepTime.Text = "Render loop sleep time (Milliseconds)";
+            this.labelRenderLoopSleepTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // numericUpDownRenderSleep
+            // 
+            this.numericUpDownRenderSleep.Location = new System.Drawing.Point(277, 189);
+            this.numericUpDownRenderSleep.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.numericUpDownRenderSleep.Name = "numericUpDownRenderSleep";
+            this.numericUpDownRenderSleep.Size = new System.Drawing.Size(92, 20);
+            this.numericUpDownRenderSleep.TabIndex = 12;
+            this.numericUpDownRenderSleep.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numericUpDownRenderSleep.ValueChanged += new System.EventHandler(this.numericUpDownRenderSleep_ValueChanged);
+            // 
             // FormAdvancedSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(381, 192);
+            this.ClientSize = new System.Drawing.Size(381, 221);
+            this.Controls.Add(this.numericUpDownRenderSleep);
+            this.Controls.Add(this.labelRenderLoopSleepTime);
             this.Controls.Add(this.buttonDefaultColor);
             this.Controls.Add(this.buttonHostileColor);
             this.Controls.Add(this.buttonFriendlyColor);
@@ -178,6 +212,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "MW2 4D1 ESP: Advanced Settings";
             this.Load += new System.EventHandler(this.FormAdvancedSettings_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRenderSleep)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -195,5 +230,7 @@
         private System.Windows.Forms.Button buttonFriendlyColor;
         private System.Windows.Forms.Button buttonHostileColor;
         private System.Windows.Forms.Button buttonDefaultColor;
+        private System.Windows.Forms.Label labelRenderLoopSleepTime;
+        private System.Windows.Forms.NumericUpDown numericUpDownRenderSleep;
     }
 }

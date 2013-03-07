@@ -14,16 +14,17 @@ namespace MW2_4D1_External_ESP
 
         private void FormAdvancedSettings_Load(object sender, EventArgs e)
         {
-            UpdateLabels();
+            UpdateUiElements();
         }
 
-        private void UpdateLabels()
+        private void UpdateUiElements()
         {
             labelNameColor.Text = string.Format("Player name Color: {0}", Settings.Default.PlayerNameColor.Name.ToUpper());
             labelDistanceColor.Text = string.Format("Distance to player Color: {0}", Settings.Default.DistanceToPlayerColor.Name.ToUpper());
             labelDeadColor.Text = string.Format("Dead player Color: {0}", Settings.Default.DeadPlayerColor.Name.ToUpper());
             labelFriendlyColor.Text = string.Format("Friendly player Color: {0}", Settings.Default.FriendlyColor.Name.ToUpper());
             labelHostileColor.Text = string.Format("Hostile player Color: {0}", Settings.Default.HostileColor.Name.ToUpper());
+            numericUpDownRenderSleep.Value = Convert.ToDecimal(Settings.Default.RenderSleep);
         }
 
         private void buttonNameColor_Click(object sender, EventArgs e)
@@ -33,7 +34,7 @@ namespace MW2_4D1_External_ESP
             Settings.Default.PlayerNameColor = dialog.Color;
             Settings.Default.Save();
 
-            UpdateLabels();
+            UpdateUiElements();
         }
 
         private void buttonDistanceColor_Click(object sender, EventArgs e)
@@ -43,7 +44,7 @@ namespace MW2_4D1_External_ESP
             Settings.Default.DistanceToPlayerColor = dialog.Color;
             Settings.Default.Save();
 
-            UpdateLabels();
+            UpdateUiElements();
         }
 
         private void buttonDeadColor_Click(object sender, EventArgs e)
@@ -53,7 +54,7 @@ namespace MW2_4D1_External_ESP
             Settings.Default.DeadPlayerColor = dialog.Color;
             Settings.Default.Save();
 
-            UpdateLabels();
+            UpdateUiElements();
         }
 
         private void buttonFriendlyColor_Click(object sender, EventArgs e)
@@ -63,7 +64,7 @@ namespace MW2_4D1_External_ESP
             Settings.Default.FriendlyColor = dialog.Color;
             Settings.Default.Save();
 
-            UpdateLabels();
+            UpdateUiElements();
         }
 
         private void buttonHostileColor_Click(object sender, EventArgs e)
@@ -73,7 +74,7 @@ namespace MW2_4D1_External_ESP
             Settings.Default.HostileColor = dialog.Color;
             Settings.Default.Save();
 
-            UpdateLabels();
+            UpdateUiElements();
         }
 
         private void buttonDefaultColor_Click(object sender, EventArgs e)
@@ -85,7 +86,13 @@ namespace MW2_4D1_External_ESP
             Settings.Default.HostileColor = Color.Red;
             Settings.Default.Save();
 
-            UpdateLabels();
+            UpdateUiElements();
+        }
+
+        private void numericUpDownRenderSleep_ValueChanged(object sender, EventArgs e)
+        {
+            Settings.Default.RenderSleep = Convert.ToInt32(numericUpDownRenderSleep.Value);
+            Settings.Default.Save();
         }
     }
 }

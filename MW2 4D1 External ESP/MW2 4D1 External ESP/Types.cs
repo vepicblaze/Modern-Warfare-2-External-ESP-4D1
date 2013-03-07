@@ -19,11 +19,10 @@ namespace MW2_4D1_External_ESP
             if (transform.z < 0.1f)
                 return false;
 
-            float centerX = (float)(Game.RefDef.width) / 2.0f;
-            float centerY = (float)(Game.RefDef.height) / 2.0f;
+            PointF center = Game.ScreenCenter();
 
-            point.X = centerX * (1.0f - (transform.x / Game.RefDef.fovX / transform.z));
-            point.Y = centerY * (1.0f - (transform.y / Game.RefDef.fovY / transform.z));
+            point.X = center.X * (1.0f - (transform.x / Game.RefDef.fovX / transform.z));
+            point.Y = center.Y * (1.0f - (transform.y / Game.RefDef.fovY / transform.z));
             return true;
         }
     }
