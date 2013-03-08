@@ -41,10 +41,10 @@ namespace MW2_4D1_External_ESP
             device = new Device(0, DeviceType.Hardware, this.Handle, CreateFlags.HardwareVertexProcessing, pp);
 
             sprite = new Sprite(device);
-            smallFont = new Font(device, 14, 0, FontWeight.Normal, 0, false, CharacterSet.Ansi, Precision.Default,
-                FontQuality.ClearType, PitchAndFamily.DefaultPitch, "Segoe UI");
+            smallFont = new Font(device, 15, 0, FontWeight.Normal, 0, false, CharacterSet.Ansi, Precision.Default,
+                FontQuality.ClearType, PitchAndFamily.DefaultPitch, "Courier New");
             largeFont = new Font(device, 28, 0, FontWeight.Bold, 0, false, CharacterSet.Ansi, Precision.Default,
-                FontQuality.ClearType, PitchAndFamily.DefaultPitch, "Segoe UI");
+                FontQuality.ClearType, PitchAndFamily.DefaultPitch, "Courier New");
             line = new Line(device);
             line.Antialias = false;
 
@@ -139,7 +139,7 @@ namespace MW2_4D1_External_ESP
             if (Settings.Default.OnlyHostilePlayers && player.Team == PlayerTeam.Friendly)
                 return;
 
-            player.Name = string.Format("|{0}| {1}", player.Rank, player.Name);
+            player.Name = string.Format("#{0}[{1}]", player.Rank, player.Name);
 
             Color color;
             if (player.Team == PlayerTeam.Friendly) {
@@ -193,17 +193,17 @@ namespace MW2_4D1_External_ESP
             distancePoint.Y = feetPoint.Y - drawPoint.Y + 9.8f;
             var distanceType = Settings.Default.DistanceType == 0 ? Distance.Meter() : Distance.Feet();
             float baseDistance = Vector.Distance(Game.LocalPlayer.Origin, player.Origin);
-            float distance = (float)Math.Round((double)baseDistance * distanceType.Const, 1);
+            float distance = (float)Math.Round((double)baseDistance * distanceType.Const);
+            string distanceString = string.Format("➔[{0}{1}]", distance, distanceType.Suffix);
 
             DrawRect(boundingBox, 2f, color);
 
             if (Settings.Default.PlayerName)
                 DrawSmallText(player.Name, namePoint, Settings.Default.PlayerNameColor);
             if (Settings.Default.DistanceToPlayer)
-                DrawSmallText(distance + distanceType.Suffix, distancePoint, Settings.Default.DistanceToPlayerColor);
-
-            if (Settings.Default.HostilePlayerWarning && player.Team == PlayerTeam.Hostile && player.IsAlive && baseDistance < 400)
-                DrawLargeText("Hostile player nearby!", new PointF(this.Width * 0.35f, this.Height * 0.7f), Color.Red);
+                DrawSmallText(distanceString, distancePoint, Settings.Default.DistanceToPlayerColor);
+            if (Settings.Default.HostilePlayerWarning)
+                DrawHostilePlayerWarning(player, baseDistance);
         }
 
         private void DrawTurretESP(Turret turret)
@@ -286,9 +286,17 @@ namespace MW2_4D1_External_ESP
             DrawSmallText(Plane.NAME, namePoint, Color.White);
         }
 
+        private void DrawHostilePlayerWarning(Player player, float baseDistance)
+        {
+            if (player.Team == PlayerTeam.Hostile && player.IsAlive && baseDistance < 400) {
+                FillRect(new RectF(this.Width * 0.35f - 5f, this.Height * 0.7f + 1f, 320f, 25f), Color.FromArgb(140, 0, 0, 0));
+                DrawLargeText("Hostile player nearby!", new PointF(this.Width * 0.35f, this.Height * 0.7f), Color.Red);
+            }
+        }
+
         private void DrawEspVersion()
         {
-            FillRect(new RectF(this.Width * 0.13f - 2.0f, 9.0f, 328f, 25f), Color.FromArgb(140, 0, 0, 0));
+            FillRect(new RectF(this.Width * 0.13f - 2.0f, 5.5f, 450f, 25f), Color.FromArgb(140, 0, 0, 0));
             DrawLargeText(string.Format("[MW2 4D1 External ESP: v{0}]",
                                 FormMain.ProductVersion()),
                                 new PointF(this.Width * 0.13f, 4.0f), Color.Lime);
@@ -299,12 +307,12 @@ namespace MW2_4D1_External_ESP
             var rect = new RectF();
             rect.X = this.Width * 0.13f - 2.0f;
             rect.Y = 40f;
-            rect.W = 120f;
-            rect.H = 53f;
+            rect.W = 160f;
+            rect.H = 62f;
             FillRect(rect, Color.FromArgb(140, 0, 0, 0));
             var info = string.Format("Player count: {0}\nTurret count: {1}\nHelicopter count: {2}\nPlane count: {3}",
                                     Game.Players.Count, Game.Turrets.Count, Game.Helis.Count, Game.Planes.Count);
-            DrawSmallText(info, new PointF(this.Width * 0.13f, 40.0f), Color.Lime);
+            DrawSmallText(info, new PointF(this.Width * 0.13f + 2f, 40.0f), Color.Lime);
         }
 
         private void DrawCrosshair()
