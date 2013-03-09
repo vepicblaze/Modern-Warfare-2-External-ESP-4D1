@@ -30,8 +30,8 @@ namespace MW2_4D1_External_ESP
         private void buttonNameColor_Click(object sender, EventArgs e)
         {
             var dialog = new ColorDialog();
-            dialog.ShowDialog();
-            Settings.Default.PlayerNameColor = dialog.Color;
+            if (dialog.ShowDialog() == DialogResult.OK)
+                Settings.Default.PlayerNameColor = dialog.Color;
             Settings.Default.Save();
 
             UpdateUiElements();
@@ -40,8 +40,8 @@ namespace MW2_4D1_External_ESP
         private void buttonDistanceColor_Click(object sender, EventArgs e)
         {
             var dialog = new ColorDialog();
-            dialog.ShowDialog();
-            Settings.Default.DistanceToPlayerColor = dialog.Color;
+            if (dialog.ShowDialog() == DialogResult.OK)
+                Settings.Default.DistanceToPlayerColor = dialog.Color;
             Settings.Default.Save();
 
             UpdateUiElements();
@@ -50,8 +50,8 @@ namespace MW2_4D1_External_ESP
         private void buttonDeadColor_Click(object sender, EventArgs e)
         {
             var dialog = new ColorDialog();
-            dialog.ShowDialog();
-            Settings.Default.DeadPlayerColor = dialog.Color;
+            if (dialog.ShowDialog() == DialogResult.OK)
+                Settings.Default.DeadPlayerColor = dialog.Color;
             Settings.Default.Save();
 
             UpdateUiElements();
@@ -60,8 +60,8 @@ namespace MW2_4D1_External_ESP
         private void buttonFriendlyColor_Click(object sender, EventArgs e)
         {
             var dialog = new ColorDialog();
-            dialog.ShowDialog();
-            Settings.Default.FriendlyColor = dialog.Color;
+            if (dialog.ShowDialog() == DialogResult.OK)
+                Settings.Default.FriendlyColor = dialog.Color;
             Settings.Default.Save();
 
             UpdateUiElements();
@@ -70,8 +70,8 @@ namespace MW2_4D1_External_ESP
         private void buttonHostileColor_Click(object sender, EventArgs e)
         {
             var dialog = new ColorDialog();
-            dialog.ShowDialog();
-            Settings.Default.HostileColor = dialog.Color;
+            if (dialog.ShowDialog() == DialogResult.OK)
+                Settings.Default.HostileColor = dialog.Color;
             Settings.Default.Save();
 
             UpdateUiElements();
