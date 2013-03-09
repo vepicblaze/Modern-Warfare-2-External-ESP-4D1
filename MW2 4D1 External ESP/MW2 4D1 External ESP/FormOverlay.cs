@@ -190,7 +190,7 @@ namespace MW2_4D1_External_ESP
 
             var distancePoint = new PointF();
             distancePoint.X = boundingBox.X + boundingBox.W + 5.0f;
-            distancePoint.Y = feetPoint.Y - drawPoint.Y + 9.8f;
+            distancePoint.Y = Settings.Default.PlayerName ? feetPoint.Y - drawPoint.Y + 9.8f : namePoint.Y;
             var distanceType = Settings.Default.DistanceType == 0 ? Distance.Meter() : Distance.Feet();
             float baseDistance = Vector.Distance(Game.LocalPlayer.Origin, player.Origin);
             float distance = (float)Math.Round((double)baseDistance * distanceType.Const);
@@ -296,7 +296,7 @@ namespace MW2_4D1_External_ESP
 
         private void DrawEspVersion()
         {
-            FillRect(new RectF(this.Width * 0.13f - 2.0f, 5.5f, 450f, 25f), Color.FromArgb(140, 0, 0, 0));
+            FillRect(new RectF(this.Width * 0.13f - 2.0f, 5.0f, 450f, 25f), Color.FromArgb(140, 0, 0, 0));
             DrawLargeText(string.Format("[MW2 4D1 External ESP: v{0}]",
                                 FormMain.ProductVersion()),
                                 new PointF(this.Width * 0.13f, 4.0f), Color.Lime);
