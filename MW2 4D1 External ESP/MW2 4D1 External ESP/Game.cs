@@ -4,9 +4,6 @@ using System.Windows.Forms;
 
 namespace MW2_4D1_External_ESP
 {
-    /// <summary>
-    /// Singleton class with information about the game (4D1 MW2).
-    /// </summary>
     public static class Game
     {
         public const string CLASSNAME = "IW4";

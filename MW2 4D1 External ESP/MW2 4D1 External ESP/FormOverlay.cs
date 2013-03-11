@@ -139,7 +139,7 @@ namespace MW2_4D1_External_ESP
             if (Settings.Default.OnlyHostilePlayers && player.Team == PlayerTeam.Friendly)
                 return;
 
-            player.Name = string.Format("#{0}[{1}]", player.Rank, player.Name);
+            string name = string.Format("#{0}[{1}]", player.Rank, player.Name);
 
             Color color;
             if (player.Team == PlayerTeam.Friendly) {
@@ -149,7 +149,7 @@ namespace MW2_4D1_External_ESP
             }
             if (!player.IsAlive) {
                 color = Settings.Default.DeadPlayerColor;
-                player.Name += " [DEAD]";
+                name = string.Format("#{0}[{1}-DEAD]", player.Rank, player.Name);
 
                 if (!Settings.Default.DeadPlayers)
                     return;
@@ -194,12 +194,12 @@ namespace MW2_4D1_External_ESP
             var distanceType = Settings.Default.DistanceType == 0 ? Distance.Meter() : Distance.Feet();
             float baseDistance = Vector.Distance(Game.LocalPlayer.Origin, player.Origin);
             float distance = (float)Math.Round((double)baseDistance * distanceType.Const);
-            string distanceString = string.Format("➔[{0}{1}]", distance, distanceType.Suffix);
+            string distanceString = string.Format("➔{0}{1}", distance, distanceType.Suffix);
 
             DrawRect(boundingBox, 2f, color);
 
             if (Settings.Default.PlayerName)
-                DrawSmallText(player.Name, namePoint, Settings.Default.PlayerNameColor);
+                DrawSmallText(name, namePoint, Settings.Default.PlayerNameColor);
             if (Settings.Default.DistanceToPlayer)
                 DrawSmallText(distanceString, distancePoint, Settings.Default.DistanceToPlayerColor);
             if (Settings.Default.HostilePlayerWarning)
