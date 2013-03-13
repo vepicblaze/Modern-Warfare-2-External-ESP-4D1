@@ -121,7 +121,7 @@ namespace MW2_4D1_External_ESP.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Gray")]
+        [global::System.Configuration.DefaultSettingValueAttribute("LightGray")]
         public global::System.Drawing.Color DeadPlayerColor {
             get {
                 return ((global::System.Drawing.Color)(this["DeadPlayerColor"]));

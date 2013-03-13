@@ -27,7 +27,7 @@
       <Value Profile="(Default)">White</Value>
     </Setting>
     <Setting Name="DeadPlayerColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">Gray</Value>
+      <Value Profile="(Default)">LightGray</Value>
     </Setting>
     <Setting Name="FriendlyColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Blue</Value>

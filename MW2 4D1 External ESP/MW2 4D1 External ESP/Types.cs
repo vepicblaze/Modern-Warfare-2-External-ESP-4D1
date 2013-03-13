@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace MW2_4D1_External_ESP
@@ -106,48 +107,6 @@ namespace MW2_4D1_External_ESP
     {
         Friendly,
         Hostile
-    }
-
-    public class RectF
-    {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float W { get; set; }
-        public float H { get; set; }
-
-        public RectF(float x, float y, float width, float height)
-        {
-            this.X = x;
-            this.Y = y;
-            this.W = width;
-            this.H = height;
-        }
-
-        public RectF()
-        {
-            this.X = 0.0f;
-            this.Y = 0.0f;
-            this.W = 0.0f;
-            this.H = 0.0f;
-        }
-    }
-
-    public class PointF
-    {
-        public float X { get; set; }
-        public float Y { get; set; }
-
-        public PointF(float x, float y)
-        {
-            this.X = x;
-            this.Y = y;
-        }
-
-        public PointF()
-        {
-            this.X = 0.0f;
-            this.Y = 0.0f;
-        }
     }
 
     public class Distance

@@ -148,11 +148,11 @@ namespace MW2_4D1_External_ESP
                 color = Settings.Default.HostileColor;
             }
             if (!player.IsAlive) {
-                color = Settings.Default.DeadPlayerColor;
-                name = string.Format("#{0}[{1}-DEAD]", player.Rank, player.Name);
-
                 if (!Settings.Default.DeadPlayers)
                     return;
+
+                color = Settings.Default.DeadPlayerColor;
+                name = string.Format("#{0}[{1}::DEAD]", player.Rank, player.Name);
             }
 
             PointF feetPoint, headPoint;
@@ -169,7 +169,7 @@ namespace MW2_4D1_External_ESP
                 drawPoint.Y = 10.0f;
 
             if ((player.Flag & Flags.Crouched) == Flags.Crouched) {
-                drawPoint.Y /= 1.5f;
+                drawPoint.Y /= 1.4f;
                 drawPoint.X = drawPoint.Y / 1.5f;
             } else if ((player.Flag & Flags.Prone) == Flags.Prone) {
                 drawPoint.Y /= 3.0f;
@@ -178,18 +178,18 @@ namespace MW2_4D1_External_ESP
                 drawPoint.X = drawPoint.Y / 2.75f;
             }
 
-            var boundingBox = new RectF();
+            var boundingBox = new RectangleF();
             boundingBox.X = feetPoint.X - (drawPoint.X / 2.0f);
             boundingBox.Y = feetPoint.Y;
-            boundingBox.W = drawPoint.X;
-            boundingBox.H = -drawPoint.Y;
+            boundingBox.Width = drawPoint.X;
+            boundingBox.Height = -drawPoint.Y;
 
             var namePoint = new PointF();
-            namePoint.X = boundingBox.X + boundingBox.W + 5.0f;
+            namePoint.X = boundingBox.X + boundingBox.Width + 5.0f;
             namePoint.Y = feetPoint.Y - drawPoint.Y - 2.8f;
 
             var distancePoint = new PointF();
-            distancePoint.X = boundingBox.X + boundingBox.W + 5.0f;
+            distancePoint.X = boundingBox.X + boundingBox.Width + 5.0f;
             distancePoint.Y = Settings.Default.PlayerName ? feetPoint.Y - drawPoint.Y + 9.8f : namePoint.Y;
             var distanceType = Settings.Default.DistanceType == 0 ? Distance.Meter() : Distance.Feet();
             float baseDistance = Vector.Distance(Game.LocalPlayer.Origin, player.Origin);
@@ -226,14 +226,14 @@ namespace MW2_4D1_External_ESP
             drawPoint.Y = botPoint.Y - topPoint.Y;
             drawPoint.X = drawPoint.Y / 2.75f;
 
-            var boundingBox = new RectF();
+            var boundingBox = new RectangleF();
             boundingBox.X = botPoint.X - (drawPoint.X / 2.0f);
             boundingBox.Y = botPoint.Y;
-            boundingBox.W = drawPoint.X;
-            boundingBox.H = -drawPoint.Y;
+            boundingBox.Width = drawPoint.X;
+            boundingBox.Height = -drawPoint.Y;
 
             var namePoint = new PointF();
-            namePoint.X = boundingBox.X + boundingBox.W + 5.0f;
+            namePoint.X = boundingBox.X + boundingBox.Width + 5.0f;
             namePoint.Y = botPoint.Y - drawPoint.Y - 2.8f;
 
             DrawRect(boundingBox, 2.0f, Color.Purple);
@@ -249,17 +249,17 @@ namespace MW2_4D1_External_ESP
             if (!MathHelper.WorldToScreen(heli.Origin, out pos))
                 return;
 
-            var boundingBox = new RectF();
-            boundingBox.W = 30f;
-            boundingBox.H = 30f;
-            boundingBox.X = pos.X - (boundingBox.W / 2f);
-            boundingBox.Y = pos.Y - (boundingBox.H / 2f);
+            var boundingBox = new RectangleF();
+            boundingBox.X = pos.X - 15f;
+            boundingBox.Y = pos.Y - 15f;
+            boundingBox.Width = 30f;
+            boundingBox.Height = 30f;
 
             var namePoint = new PointF();
-            namePoint.X = boundingBox.X + boundingBox.W + 5.0f;
+            namePoint.X = boundingBox.X + boundingBox.Width + 5.0f;
             namePoint.Y = boundingBox.Y - 1.4f;
 
-            DrawRect(boundingBox, 2.0f, Color.Purple);
+            DrawRect(boundingBox, 3.0f, Color.Purple);
             DrawSmallText(Helicopter.NAME, namePoint, Color.White);
         }
 
@@ -272,31 +272,31 @@ namespace MW2_4D1_External_ESP
             if (!MathHelper.WorldToScreen(plane.Origin, out pos))
                 return;
 
-            var boundingBox = new RectF();
-            boundingBox.W = 30f;
-            boundingBox.H = 30f;
-            boundingBox.X = pos.X - (boundingBox.W / 2f);
-            boundingBox.Y = pos.Y - (boundingBox.H / 2f);
+            var boundingBox = new RectangleF();
+            boundingBox.X = pos.X - 15f;
+            boundingBox.Y = pos.Y - 15f;
+            boundingBox.Width = 30f;
+            boundingBox.Height = 30f;
 
             var namePoint = new PointF();
-            namePoint.X = boundingBox.X + boundingBox.W + 5.0f;
+            namePoint.X = boundingBox.X + boundingBox.Width + 5.0f;
             namePoint.Y = boundingBox.Y - 1.4f;
 
-            DrawRect(boundingBox, 2.0f, Color.Purple);
+            DrawRect(boundingBox, 3.0f, Color.Purple);
             DrawSmallText(Plane.NAME, namePoint, Color.White);
         }
 
         private void DrawHostilePlayerWarning(Player player, float baseDistance)
         {
             if (player.Team == PlayerTeam.Hostile && player.IsAlive && baseDistance < 400) {
-                FillRect(new RectF(this.Width * 0.35f - 5f, this.Height * 0.7f + 1f, 320f, 25f), Color.FromArgb(140, 0, 0, 0));
+                FillRect(new RectangleF(this.Width * 0.35f - 5f, this.Height * 0.7f + 1f, 320f, 25f), Color.FromArgb(140, 0, 0, 0));
                 DrawLargeText("Hostile player nearby!", new PointF(this.Width * 0.35f, this.Height * 0.7f), Color.Red);
             }
         }
 
         private void DrawEspVersion()
         {
-            FillRect(new RectF(this.Width * 0.13f - 2.0f, 5.0f, 450f, 25f), Color.FromArgb(140, 0, 0, 0));
+            FillRect(new RectangleF(this.Width * 0.13f - 2.0f, 5.0f, 450f, 25f), Color.FromArgb(140, 0, 0, 0));
             DrawLargeText(string.Format("[MW2 4D1 External ESP: v{0}]",
                                 FormMain.ProductVersion()),
                                 new PointF(this.Width * 0.13f, 4.0f), Color.Lime);
@@ -304,11 +304,11 @@ namespace MW2_4D1_External_ESP
 
         private void DrawLobbyInfo()
         {
-            var rect = new RectF();
+            var rect = new RectangleF();
             rect.X = this.Width * 0.13f - 2.0f;
             rect.Y = 40f;
-            rect.W = 160f;
-            rect.H = 62f;
+            rect.Width = 160f;
+            rect.Height = 62f;
             FillRect(rect, Color.FromArgb(140, 0, 0, 0));
             var info = string.Format("Player count: {0}\nTurret count: {1}\nHelicopter count: {2}\nPlane count: {3}",
                                     Game.Players.Count, Game.Turrets.Count, Game.Helis.Count, Game.Planes.Count);
@@ -324,7 +324,7 @@ namespace MW2_4D1_External_ESP
             float width = 20f;
 
             PointF center = Game.ScreenCenter();
-
+            
             var horizontalPt1 = new PointF();
             horizontalPt1.X = center.X - (width / 2f);
             horizontalPt1.Y = center.Y;
@@ -361,34 +361,34 @@ namespace MW2_4D1_External_ESP
             sprite.End();
         }
 
-        private void DrawRect(RectF rect, float width, Color color)
+        private void DrawRect(RectangleF rect, float width, Color color)
         {
             line.Width = width;
 
             Vector2[] vertexList1 = new Vector2[4];
             vertexList1[0] = new Vector2(rect.X, rect.Y);
-            vertexList1[1] = new Vector2(rect.X + rect.W, rect.Y);
+            vertexList1[1] = new Vector2(rect.X + rect.Width, rect.Y);
             vertexList1[2] = new Vector2(rect.X, rect.Y);
-            vertexList1[3] = new Vector2(rect.X, rect.Y + rect.H);
+            vertexList1[3] = new Vector2(rect.X, rect.Y + rect.Height);
 
             Vector2[] vertexList2 = new Vector2[4];
-            vertexList2[0] = new Vector2(rect.X + rect.W, rect.Y);
-            vertexList2[1] = new Vector2(rect.X + rect.W, rect.Y + rect.H);
-            vertexList2[2] = new Vector2(rect.X, rect.Y + rect.H);
-            vertexList2[3] = new Vector2(rect.X + rect.W, rect.Y + rect.H);
+            vertexList2[0] = new Vector2(rect.X + rect.Width, rect.Y);
+            vertexList2[1] = new Vector2(rect.X + rect.Width, rect.Y + rect.Height);
+            vertexList2[2] = new Vector2(rect.X, rect.Y + rect.Height);
+            vertexList2[3] = new Vector2(rect.X + rect.Width, rect.Y + rect.Height);
 
             line.Draw(vertexList1, color);
             line.Draw(vertexList2, color);
         }
 
-        private void FillRect(RectF rect, Color color)
+        private void FillRect(RectangleF rect, Color color)
         {
             var vertecies = new CustomVertex.TransformedColored[4];
 
-            vertecies[0].Position = new Vector4(rect.X, rect.Y + rect.H, 0, 0.5f);
+            vertecies[0].Position = new Vector4(rect.X, rect.Y + rect.Height, 0, 0.5f);
             vertecies[1].Position = new Vector4(rect.X, rect.Y, 0, 0.5f);
-            vertecies[2].Position = new Vector4(rect.X + rect.W, rect.Y + rect.H, 0, 0.5f);
-            vertecies[3].Position = new Vector4(rect.X + rect.W, rect.Y, 0, 0.5f);
+            vertecies[2].Position = new Vector4(rect.X + rect.Width, rect.Y + rect.Height, 0, 0.5f);
+            vertecies[3].Position = new Vector4(rect.X + rect.Width, rect.Y, 0, 0.5f);
 
             vertecies[0].Color = color.ToArgb();
             vertecies[1].Color = color.ToArgb();
