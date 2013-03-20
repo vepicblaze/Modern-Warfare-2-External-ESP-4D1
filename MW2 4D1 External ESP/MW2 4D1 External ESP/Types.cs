@@ -68,7 +68,6 @@ namespace MW2_4D1_External_ESP
         }
     }
 
-    // From the IW5 engine, not sure if this works with IW4
     [Flags]
     public enum Flags : int
     {
@@ -87,7 +86,7 @@ namespace MW2_4D1_External_ESP
         Player,
         PlayerCorpse,
         Item,
-        Missile,
+        Explosive,
         Invisible,
         ScriptMover,
         SoundMover,

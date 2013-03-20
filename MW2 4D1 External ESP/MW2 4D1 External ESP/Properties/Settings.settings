@@ -30,7 +30,7 @@
       <Value Profile="(Default)">LightGray</Value>
     </Setting>
     <Setting Name="FriendlyColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">Blue</Value>
+      <Value Profile="(Default)">LimeGreen</Value>
     </Setting>
     <Setting Name="HostileColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Red</Value>

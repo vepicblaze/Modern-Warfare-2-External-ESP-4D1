@@ -36,4 +36,9 @@ namespace MW2_4D1_External_ESP
     {
         public const string NAME = "Plane";
     }
+
+    public class Explosive : EntityBase
+    {
+        public const string NAME = "Explosive";
+    }
 }

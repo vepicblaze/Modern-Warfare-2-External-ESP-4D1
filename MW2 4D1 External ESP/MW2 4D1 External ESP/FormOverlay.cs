@@ -103,6 +103,8 @@ namespace MW2_4D1_External_ESP
                                     DrawHelicopterESP(heli);
                                 foreach (var plane in Game.Planes)
                                     DrawPlaneESP(plane);
+                                foreach (var item in Game.Items)
+                                    DrawExplosivesESP(item);
                             } else {
                                 EspStatus.CurrentStatus = EspStatus.ESP_NOT_RUNNING;
                             }
@@ -139,7 +141,7 @@ namespace MW2_4D1_External_ESP
             if (Settings.Default.OnlyHostilePlayers && player.Team == PlayerTeam.Friendly)
                 return;
 
-            string name = string.Format("#{0}[{1}]", player.Rank, player.Name);
+            string name = string.Format("#{0}{{{1}}}", player.Rank, player.Name);
 
             Color color;
             if (player.Team == PlayerTeam.Friendly) {
@@ -151,8 +153,8 @@ namespace MW2_4D1_External_ESP
                 if (!Settings.Default.DeadPlayers)
                     return;
 
+                name = string.Format("DEAD{{{0}}}", player.Name);
                 color = Settings.Default.DeadPlayerColor;
-                name = string.Format("#{0}[{1}::DEAD]", player.Rank, player.Name);
             }
 
             PointF feetPoint, headPoint;
@@ -168,10 +170,10 @@ namespace MW2_4D1_External_ESP
             if (drawPoint.Y < 10.0f)
                 drawPoint.Y = 10.0f;
 
-            if ((player.Flag & Flags.Crouched) == Flags.Crouched) {
+            if ((player.Flag & Flags.Crouched) != 0) {
                 drawPoint.Y /= 1.4f;
                 drawPoint.X = drawPoint.Y / 1.5f;
-            } else if ((player.Flag & Flags.Prone) == Flags.Prone) {
+            } else if ((player.Flag & Flags.Prone) != 0) {
                 drawPoint.Y /= 3.0f;
                 drawPoint.X = drawPoint.Y * 2.0f;
             } else {
@@ -191,7 +193,7 @@ namespace MW2_4D1_External_ESP
             var distancePoint = new PointF();
             distancePoint.X = boundingBox.X + boundingBox.Width + 5.0f;
             distancePoint.Y = Settings.Default.PlayerName ? feetPoint.Y - drawPoint.Y + 9.8f : namePoint.Y;
-            var distanceType = Settings.Default.DistanceType == 0 ? Distance.Meter() : Distance.Feet();
+            Distance distanceType = Settings.Default.DistanceType == 0 ? Distance.Meter() : Distance.Feet();
             float baseDistance = Vector.Distance(Game.LocalPlayer.Origin, player.Origin);
             float distance = (float)Math.Round((double)baseDistance * distanceType.Const);
             string distanceString = string.Format("➔{0}{1}", distance, distanceType.Suffix);
@@ -286,6 +288,26 @@ namespace MW2_4D1_External_ESP
             DrawSmallText(Plane.NAME, namePoint, Color.White);
         }
 
+        private void DrawExplosivesESP(Explosive explosive)
+        {
+            PointF pos;
+            if (!MathHelper.WorldToScreen(explosive.Origin, out pos))
+                return;
+
+            var rect = new RectangleF();
+            rect.X = pos.X - 3.5f;
+            rect.Y = pos.Y - 3.5f;
+            rect.Width = 7f;
+            rect.Height = 7f;
+
+            var namePoint = new PointF();
+            namePoint.X = rect.X - 25f;
+            namePoint.Y = rect.Y + 5f;
+
+            FillRect(rect, Color.Brown);
+            DrawSmallText(Explosive.NAME, namePoint, Color.White);
+        }
+
         private void DrawHostilePlayerWarning(Player player, float baseDistance)
         {
             if (player.Team == PlayerTeam.Hostile && player.IsAlive && baseDistance < 400) {
@@ -343,11 +365,11 @@ namespace MW2_4D1_External_ESP
             DrawLine(verticalPt1, verticalPt2, thickness, Color.LightGray);
         }
 
-        private void DrawSmallText(string text, PointF position, Color color)
+        private void DrawSmallText(string text, PointF pos, Color color)
         {
             sprite.Begin(SpriteFlags.AlphaBlend);
             {
-                smallFont.DrawText(sprite, text, new Point((int)position.X, (int)position.Y), color);
+                smallFont.DrawText(sprite, text, new Point((int)pos.X, (int)pos.Y), color);
             }
             sprite.End();
         }
@@ -409,7 +431,7 @@ namespace MW2_4D1_External_ESP
             line.Draw(vertexList, color);
         }
 
-        // Moves/Resizes window and resizes backbuffer
+        // Moves/Resizes window and resizes backbuffer (when needed)
         private void MoveWindow()
         {
             if (!Game.IsGameRunning())

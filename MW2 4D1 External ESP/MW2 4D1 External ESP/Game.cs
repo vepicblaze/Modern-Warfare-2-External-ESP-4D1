@@ -18,6 +18,7 @@ namespace MW2_4D1_External_ESP
         public static List<Turret> Turrets = new List<Turret>(10);
         public static List<Helicopter> Helis = new List<Helicopter>(6);
         public static List<Plane> Planes = new List<Plane>(6);
+        public static List<Explosive> Items = new List<Explosive>(20);
         #endregion
 
         #region View Origin
@@ -92,6 +93,7 @@ namespace MW2_4D1_External_ESP
             Turrets.Clear();
             Helis.Clear();
             Planes.Clear();
+            Items.Clear();
 
             for (int i = 0; i < Entities.Length; i++) {
                 bool isEntityValid = (Entities[i].isValid & 1) == 1;
@@ -127,6 +129,11 @@ namespace MW2_4D1_External_ESP
                     plane.ClientNum = Entities[i].clientNum;
                     plane.Origin = Entities[i].origin;
                     Planes.Add(plane);
+                } else if (Entities[i].type == EntityType.Explosive && isEntityValid) {
+                    var item = new Explosive();
+                    item.ClientNum = Entities[i].clientNum;
+                    item.Origin = Entities[i].origin;
+                    Items.Add(item);
                 }
             }
         }

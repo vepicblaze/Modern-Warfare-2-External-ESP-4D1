@@ -25,8 +25,6 @@ namespace MW2_4D1_External_ESP
         {
             statusThread.Start();
             formOverlay.Show();
-
-            this.Focus();
         }
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)

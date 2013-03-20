@@ -133,7 +133,7 @@ namespace MW2_4D1_External_ESP.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Blue")]
+        [global::System.Configuration.DefaultSettingValueAttribute("LimeGreen")]
         public global::System.Drawing.Color FriendlyColor {
             get {
                 return ((global::System.Drawing.Color)(this["FriendlyColor"]));
