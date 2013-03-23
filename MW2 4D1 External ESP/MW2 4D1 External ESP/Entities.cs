@@ -7,6 +7,7 @@ namespace MW2_4D1_External_ESP
 {
     public class EntityBase
     {
+        public bool IsValid { get; set; }
         public int ClientNum { get; set; }
         public Vector Origin { get; set; }
     }
@@ -41,8 +42,7 @@ namespace MW2_4D1_External_ESP
     {
         /// This entity type primarily highlights explosives, but
         /// some of the entities are not explosives (like knives).
-        /// So I game it the name "Equipment" as it fits pretty
-        /// much all the entity types.
+        /// So I gave it the name "Equipment".
         public const string NAME = "Equipment";
     }
 }

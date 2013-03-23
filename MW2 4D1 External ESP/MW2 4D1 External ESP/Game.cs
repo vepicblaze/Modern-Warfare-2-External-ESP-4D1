@@ -99,6 +99,7 @@ namespace MW2_4D1_External_ESP
                 switch (Entities[i].type) {
                     case EntityType.Player:
                         var player = new Player();
+                        player.IsValid = isEntityValid;
                         player.ClientNum = Clients[i].clientNum;
                         player.Origin = Entities[i].origin;
                         player.Angles = Clients[i].angles;
@@ -116,39 +117,35 @@ namespace MW2_4D1_External_ESP
                         break;
 
                     case EntityType.Turret:
-                        if (!isEntityValid)
-                            break;
                         var turret = new Turret();
+                        turret.IsValid = isEntityValid;
                         turret.ClientNum = Entities[i].clientNum;
                         turret.Origin = Entities[i].origin;
                         Turrets.Add(turret);
                         break;
 
                     case EntityType.Helicopter:
-                        if (!isEntityValid)
-                            break;
                         var heli = new Helicopter();
+                        heli.IsValid = isEntityValid;
                         heli.ClientNum = Entities[i].clientNum;
                         heli.Origin = Entities[i].origin;
                         Helis.Add(heli);
                         break;
 
                     case EntityType.Plane:
-                        if (!isEntityValid)
-                            break;
                         var plane = new Plane();
+                        plane.IsValid = isEntityValid;
                         plane.ClientNum = Entities[i].clientNum;
                         plane.Origin = Entities[i].origin;
                         Planes.Add(plane);
                         break;
 
                     case EntityType.Explosive:
-                        if (!isEntityValid)
-                            break;
-                        var item = new Explosive();
-                        item.ClientNum = Entities[i].clientNum;
-                        item.Origin = Entities[i].origin;
-                        Explosives.Add(item);
+                        var explosive = new Explosive();
+                        explosive.IsValid = isEntityValid;
+                        explosive.ClientNum = Entities[i].clientNum;
+                        explosive.Origin = Entities[i].origin;
+                        Explosives.Add(explosive);
                         break;
                 }
             }

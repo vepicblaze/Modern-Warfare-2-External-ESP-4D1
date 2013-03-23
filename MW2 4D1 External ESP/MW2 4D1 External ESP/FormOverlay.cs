@@ -210,6 +210,9 @@ namespace MW2_4D1_External_ESP
 
         private void DrawTurretESP(Turret turret)
         {
+            if (!turret.IsValid)
+                return;
+
             if (!Settings.Default.Turrets)
                 return;
 
@@ -244,6 +247,9 @@ namespace MW2_4D1_External_ESP
 
         private void DrawHelicopterESP(Helicopter heli)
         {
+            if (!heli.IsValid)
+                return;
+
             if (!Settings.Default.Helicopters)
                 return;
 
@@ -267,6 +273,9 @@ namespace MW2_4D1_External_ESP
 
         private void DrawPlaneESP(Plane plane)
         {
+            if (!plane.IsValid)
+                return;
+
             if (!Settings.Default.Planes)
                 return;
 
@@ -290,6 +299,9 @@ namespace MW2_4D1_External_ESP
 
         private void DrawExplosivesESP(Explosive explosive)
         {
+            if (!explosive.IsValid)
+                return;
+
             PointF pos;
             if (!MathHelper.WorldToScreen(explosive.Origin, out pos))
                 return;
