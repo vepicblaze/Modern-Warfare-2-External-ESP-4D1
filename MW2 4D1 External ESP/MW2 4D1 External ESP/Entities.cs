@@ -39,6 +39,10 @@ namespace MW2_4D1_External_ESP
 
     public class Explosive : EntityBase
     {
-        public const string NAME = "Explosive";
+        /// This entity type primarily highlights explosives, but
+        /// some of the entities are not explosives (like knives).
+        /// So I game it the name "Equipment" as it fits pretty
+        /// much all the entity types.
+        public const string NAME = "Equipment";
     }
 }

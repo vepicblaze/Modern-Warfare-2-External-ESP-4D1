@@ -103,8 +103,8 @@ namespace MW2_4D1_External_ESP
                                     DrawHelicopterESP(heli);
                                 foreach (var plane in Game.Planes)
                                     DrawPlaneESP(plane);
-                                foreach (var item in Game.Items)
-                                    DrawExplosivesESP(item);
+                                foreach (var explosive in Game.Explosives)
+                                    DrawExplosivesESP(explosive);
                             } else {
                                 EspStatus.CurrentStatus = EspStatus.ESP_NOT_RUNNING;
                             }
@@ -301,8 +301,8 @@ namespace MW2_4D1_External_ESP
             rect.Height = 7f;
 
             var namePoint = new PointF();
-            namePoint.X = rect.X - 25f;
-            namePoint.Y = rect.Y + 5f;
+            namePoint.X = rect.X + 10f;
+            namePoint.Y = rect.Y - 3.5f;
 
             FillRect(rect, Color.Brown);
             DrawSmallText(Explosive.NAME, namePoint, Color.White);

@@ -8,6 +8,7 @@ Features:
 - Name ESP
 - Distance ESP (Meters or Feet)
 - Highlighting of turrets, helicopters and planes
+- Highlighting of equipment and explosives
 - Options for customization
 - Warning if hostile player is nearby
 

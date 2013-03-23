@@ -18,7 +18,7 @@ namespace MW2_4D1_External_ESP
         public static List<Turret> Turrets = new List<Turret>(10);
         public static List<Helicopter> Helis = new List<Helicopter>(6);
         public static List<Plane> Planes = new List<Plane>(6);
-        public static List<Explosive> Items = new List<Explosive>(20);
+        public static List<Explosive> Explosives = new List<Explosive>(20);
         #endregion
 
         #region View Origin
@@ -87,53 +87,69 @@ namespace MW2_4D1_External_ESP
             CG = ProcessMemory.Read<ClientGame>(hProcess, Address.ClientGame);
             CGS = ProcessMemory.Read<ClientGameState>(hProcess, Address.ClientGameState);
 
-            // If the lists arent cleared they will continue to grow with each List<T>.Add() call,
-            //  therefore they have to be cleared before content is added to the lists again.
             Players.Clear();
             Turrets.Clear();
             Helis.Clear();
             Planes.Clear();
-            Items.Clear();
+            Explosives.Clear();
 
             for (int i = 0; i < Entities.Length; i++) {
                 bool isEntityValid = (Entities[i].isValid & 1) == 1;
 
-                if (Entities[i].type == EntityType.Player) {
-                    var player = new Player();
-                    player.ClientNum = Clients[i].clientNum;
-                    player.Origin = Entities[i].origin;
-                    player.Angles = Clients[i].angles;
-                    player.Flag = Entities[i].flags;
-                    player.IsAlive = isEntityValid;
-                    player.Name = Clients[i].name;
-                    player.Team = Clients[i].team1 == Clients[CG.clientNum].team1
-                        && Clients[CG.clientNum].team2 != 0
-                        ? PlayerTeam.Friendly : PlayerTeam.Hostile;
-                    player.Rank = Clients[i].rank + 1;
-                    player.Score = Clients[i].score;
-                    if (player.ClientNum == CG.clientNum)
-                        LocalPlayer = player;
-                    Players.Add(player);
-                } else if (Entities[i].type == EntityType.Turret && isEntityValid) {
-                    var turret = new Turret();
-                    turret.ClientNum = Entities[i].clientNum;
-                    turret.Origin = Entities[i].origin;
-                    Turrets.Add(turret);
-                } else if (Entities[i].type == EntityType.Helicopter && isEntityValid) {
-                    var heli = new Helicopter();
-                    heli.ClientNum = Entities[i].clientNum;
-                    heli.Origin = Entities[i].origin;
-                    Helis.Add(heli);
-                } else if (Entities[i].type == EntityType.Plane && isEntityValid) {
-                    var plane = new Plane();
-                    plane.ClientNum = Entities[i].clientNum;
-                    plane.Origin = Entities[i].origin;
-                    Planes.Add(plane);
-                } else if (Entities[i].type == EntityType.Explosive && isEntityValid) {
-                    var item = new Explosive();
-                    item.ClientNum = Entities[i].clientNum;
-                    item.Origin = Entities[i].origin;
-                    Items.Add(item);
+                switch (Entities[i].type) {
+                    case EntityType.Player:
+                        var player = new Player();
+                        player.ClientNum = Clients[i].clientNum;
+                        player.Origin = Entities[i].origin;
+                        player.Angles = Clients[i].angles;
+                        player.Flag = Entities[i].flags;
+                        player.IsAlive = isEntityValid;
+                        player.Name = Clients[i].name;
+                        player.Team = Clients[i].team1 == Clients[CG.clientNum].team1
+                            && Clients[CG.clientNum].team2 != 0
+                            ? PlayerTeam.Friendly : PlayerTeam.Hostile;
+                        player.Rank = Clients[i].rank + 1;
+                        player.Score = Clients[i].score;
+                        if (player.ClientNum == CG.clientNum)
+                            LocalPlayer = player;
+                        Players.Add(player);
+                        break;
+
+                    case EntityType.Turret:
+                        if (!isEntityValid)
+                            break;
+                        var turret = new Turret();
+                        turret.ClientNum = Entities[i].clientNum;
+                        turret.Origin = Entities[i].origin;
+                        Turrets.Add(turret);
+                        break;
+
+                    case EntityType.Helicopter:
+                        if (!isEntityValid)
+                            break;
+                        var heli = new Helicopter();
+                        heli.ClientNum = Entities[i].clientNum;
+                        heli.Origin = Entities[i].origin;
+                        Helis.Add(heli);
+                        break;
+
+                    case EntityType.Plane:
+                        if (!isEntityValid)
+                            break;
+                        var plane = new Plane();
+                        plane.ClientNum = Entities[i].clientNum;
+                        plane.Origin = Entities[i].origin;
+                        Planes.Add(plane);
+                        break;
+
+                    case EntityType.Explosive:
+                        if (!isEntityValid)
+                            break;
+                        var item = new Explosive();
+                        item.ClientNum = Entities[i].clientNum;
+                        item.Origin = Entities[i].origin;
+                        Explosives.Add(item);
+                        break;
                 }
             }
         }
